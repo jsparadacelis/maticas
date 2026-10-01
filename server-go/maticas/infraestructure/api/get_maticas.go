@@ -1,8 +1,14 @@
+package api
 
-r := chi.NewRouter()
+import (
+	"net/http"
 
-r.Get("/maticas", getMaticas)
+	"github.com/jsparadacelis/maticas/maticas/application"
+)
 
-func getMaticas(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello World!"))
+func NewGetMaticas(action *application.RetrieveMaticasInformation) http.HandlerFunc {
+	return func(responseWriter http.ResponseWriter, request *http.Request) {
+		result := action.Execute(request.Context(), 1)
+		responseWriter.Write([]byte(result))
+	}
 }
